@@ -42,7 +42,7 @@ export const logOut = () => signOut(auth);
 export const updateAccountName = name => updateProfile(auth.currentUser, { displayName: name.trim() });
 
 export function watchUserData(uid, onData, onError) {
-  const data = { transactions: [], budgets: {}, theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', compactMode: false };
+  const data = { transactions: [], budgets: {}, theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', cashflowStyle: 'bar', compactMode: false, profilePhoto: '', customCategories: { expense: [], income: [] } };
   const ready = new Set();
   const emit = key => snapshot => {
     if (key === 'transactions') data.transactions = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
@@ -73,9 +73,9 @@ export async function syncUserData(uid, next, previous = { transactions: [], bud
   if (JSON.stringify(previous.budgets || {}) !== JSON.stringify(next.budgets || {})) {
     writes.push(setDoc(doc(db, 'users', uid, 'budgets', 'main'), { values: next.budgets || {}, updatedAt: serverTimestamp() }));
   }
-  const preferenceDefaults = { theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', compactMode: false, profilePhoto: '' };
+  const preferenceDefaults = { theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', cashflowStyle: 'bar', compactMode: false, profilePhoto: '', customCategories: { expense: [], income: [] } };
   const preferenceKeys = Object.keys(preferenceDefaults);
-  const prefsChanged = preferenceKeys.some(key => (previous[key] ?? preferenceDefaults[key]) !== (next[key] ?? preferenceDefaults[key]));
+  const prefsChanged = preferenceKeys.some(key => JSON.stringify(previous[key] ?? preferenceDefaults[key]) !== JSON.stringify(next[key] ?? preferenceDefaults[key]));
   if (prefsChanged) writes.push(setDoc(doc(db, 'users', uid, 'settings', 'preferences'), Object.fromEntries([...preferenceKeys.map(key => [key, next[key] ?? preferenceDefaults[key]]), ['updatedAt', serverTimestamp()]]), { merge: true }));
   await Promise.all(writes);
 }

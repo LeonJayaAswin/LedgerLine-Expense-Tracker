@@ -143,6 +143,86 @@ html.compact-mode .tx-list{gap:0}
 .profile-name-field{margin:0 0 12px}
 .profile-name-field>span{font-size:11px;font-weight:700;color:var(--muted)}
 .profile-name-field input{max-width:none;padding:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.add-category-button{justify-self:start;border:0;background:transparent;color:var(--green);font-size:11px;font-weight:700;padding:4px 0;text-align:left}
+.add-category-button:hover{text-decoration:underline}
+.dark .add-category-button{color:var(--lime)}
 .dark .profile-menu{background:var(--paper);border-color:var(--line);box-shadow:0 14px 36px #0008}
 .dark .profile-menu>button.profile-menu-signout{color:#ff9f91}
 @media(max-width:700px){.profile-menu{right:12px}.topbar{z-index:12}}
+/* Consistent, restrained feedback for taps and clicks. */
+html{scroll-behavior:smooth}
+button,.nav-item,.button-primary,.button-secondary,.icon-button,.top-avatar,.profile-button,.text-link,.budget-set,.row-actions button,.filter-select,.setting-row select,.profile-menu>button,.quick-add,.sheet-row,.insight-card,.budget-tile,.stat-card,.search-box{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+button:active,.nav-item:active,.sheet-row:active,.insight-card:active,.budget-tile:active{transform:translateY(1px)}
+button:disabled{cursor:wait;opacity:.65}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.dark button:focus-visible,.dark input:focus-visible,.dark select:focus-visible,.dark textarea:focus-visible{outline-color:var(--lime)}
+@media(max-width:700px){
+  .sidebar{width:min(285px,88vw);padding:20px 16px 16px}
+  .workspace-label{margin:30px 9px 12px}
+  .nav-item{min-height:46px}
+  .topbar{height:62px;padding:0 14px;gap:7px}
+  .top-actions{gap:7px}
+  .month-select{padding:7px 8px}
+  .month-select input{width:112px}
+  .content{padding:24px 16px 100px}
+  .page-heading{align-items:flex-start;gap:14px}
+  .page-heading h1{font-size:clamp(27px,7vw,34px);line-height:1.08}
+  .page-heading>.button-primary{flex:none;align-self:flex-end}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .stat-card{min-width:0;padding:13px;min-height:112px}
+  .stat-value{font-size:clamp(20px,5.5vw,25px);overflow-wrap:anywhere}
+  .overview-grid,.lower-grid,.reports-grid{grid-template-columns:minmax(0,1fr);gap:11px}
+  .budget-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .insight-grid{grid-template-columns:minmax(0,1fr)}
+  .panel{min-width:0;padding:16px}
+  .chart-wrap{height:205px;overflow:hidden}
+  .chart-wrap svg{touch-action:pan-y}
+  .toolbar{gap:7px}
+  .search-box{flex-basis:100%;min-width:0}
+  .filter-select,.toolbar>.button-secondary{min-height:40px;flex:1}
+  .table-wrap{overscroll-behavior-x:contain}
+  .settings-grid{grid-template-columns:minmax(0,1fr)}
+  .settings-panel{padding:16px}
+  .setting-row{gap:10px}
+  .setting-row>span{min-width:0}
+  .setting-row select{min-width:125px;max-width:48%}
+  .modal-backdrop{align-items:end;padding:0}
+  .modal{width:100%;max-height:92dvh;overflow:auto;padding:20px 18px calc(18px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;box-shadow:0 -8px 30px #0002}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .field input,.field select,.field textarea{min-height:44px;font-size:16px}
+  .field textarea{height:86px}
+  .type-switch button{min-height:42px}
+  .modal-actions{position:sticky;bottom:0;background:var(--paper);padding:12px 0 max(4px,env(safe-area-inset-bottom));margin-top:10px}
+  .modal-actions button{min-height:44px;flex:1}
+  .tx-row{grid-template-columns:34px minmax(0,1fr) auto;gap:8px}
+  .tx-row .row-actions{grid-column:2/-1;display:flex;gap:7px}
+  .tx-row .row-actions button{min-width:52px;min-height:34px}
+  .profile-menu{right:10px;max-height:calc(100dvh - 82px)}
+  .profile-menu>button{min-height:44px}
+  .quick-add{bottom:max(16px,env(safe-area-inset-bottom));min-height:48px}
+  .export-options label>span{flex-wrap:wrap}
+  .export-box{padding:18px}
+  .export-box .button-primary,.export-box .button-secondary{margin:10px 8px 0 0}
+}
+@media(max-width:430px){
+  .topbar{padding:0 10px}
+  .breadcrumb{gap:6px;font-size:11px;margin-left:4px}
+  .month-select{gap:5px;padding:6px}
+  .month-select input{width:96px;font-size:10px}
+  .top-actions{gap:5px}
+  .icon-button,.top-avatar{width:32px;height:32px}
+  .content{padding-left:12px;padding-right:12px}
+  .page-heading{display:block}
+  .page-heading>.button-primary{margin-top:14px}
+  .stats-grid{gap:7px}
+  .stat-card{padding:11px;min-height:105px}
+  .stat-label{font-size:9px}
+  .stat-note{font-size:9px}
+  .budget-grid{grid-template-columns:1fr}
+  .panel{padding:14px}
+  .setting-row,.setting-action{align-items:flex-start}
+  .setting-row select{max-width:46%;min-width:110px}
+  .profile-editor small{margin-left:0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
