@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f2ec"><title>Ledger — Your money, in focus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard"><span class="brand-mark">L<span>.</span></span><span>ledger<span class="brand-dot">line</span></span></a>
+      <div class="workspace-label">YOUR MONEY, IN FOCUS</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">◫</span>Overview</button>
+        <button class="nav-item" data-view="transactions"><span class="nav-icon">↗</span>Transactions</button>
+        <button class="nav-item" data-view="budgets"><span class="nav-icon">◉</span>Budgets</button>
+        <button class="nav-item" data-view="analytics"><span class="nav-icon">⌁</span>Insights</button>
+        <button class="nav-item" data-view="reports"><span class="nav-icon">▤</span>Reports & export</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="safe-card"><span class="safe-icon">✳</span><div><b>Your data stays yours.</b><p>Saved in this browser.</p></div></div><button class="profile-button" id="profileBtn"><span class="avatar">J</span><span class="profile-copy"><b>Personal account</b><small>Local workspace</small></span><span class="more">···</span></button></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><button class="mobile-menu" id="menuBtn" aria-label="Open navigation">☰</button><div class="breadcrumb"><span>Workspace</span><i>/</i><b id="crumb">Overview</b></div><div class="top-actions"><label class="month-select"><span>◷</span><input id="monthPicker" type="month" aria-label="Choose month"></label><button class="icon-button" id="themeBtn" aria-label="Toggle dark mode">◐</button><button class="avatar top-avatar" title="Personal account">J</button></div></header>
+      <div class="content" id="content"></div>
+    </main>
+  </div>
+  <button class="quick-add" id="quickAdd"><span>＋</span> Add transaction</button>
+  <div id="modalRoot"></div><div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script><script src="app.js"></script>
+</body></html>
