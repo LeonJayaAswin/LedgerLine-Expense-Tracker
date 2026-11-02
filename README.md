@@ -34,3 +34,16 @@ The app stores transactions at `users/{uid}/transactions/{transactionId}`, budge
 ## Notes
 
 The site supports mobile browsers; it is not a native Expo application. Currency display is currently INR. Receipt uploads and account deletion are not implemented.
+
+## Deploy to Vercel
+
+The local `.env.local` file is ignored by Git and is not sent to Vercel. In the Vercel project, open **Settings → Environment Variables** and add each variable below with the matching value from `.env.local`:
+
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_APP_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+
+Apply them to Production (and Preview if needed), then redeploy. In Firebase Console, add the Vercel deployment hostname (for example, `your-project.vercel.app`) under **Authentication → Settings → Authorized domains**. Enter only the hostname, without `https://`, a path, or a trailing slash. Make sure the Google and Email/Password providers are enabled and your Firestore rules are published.
