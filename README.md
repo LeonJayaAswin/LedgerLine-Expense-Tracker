@@ -5,7 +5,7 @@ Responsive personal finance website with Firebase Authentication and per-account
 ## Run the website
 
 1. Install Node.js 20.19+ or 22.12+.
-2. Double-click **Start Ledgerline.bat** (or run `npm install` and then `npm run dev` in this folder).
+2. Double-click **Start Ledgerline.bat** (or run `npm install` and then `npm run dev -- --host localhost` in this folder).
 3. Create `.env.local` from `.env.example` and add the Firebase web app config values.
 4. Open the local URL printed by Vite. Do not open `index.html` directly from the file system.
 
@@ -14,7 +14,7 @@ Do not open `index.html` directly from the file system. Firebase modules need th
 ## Firebase project setup
 
 1. In the Firebase Console, create or open a project and register a Web app. Copy its web configuration values into `.env.local`.
-2. In **Authentication → Sign-in method**, enable **Email/Password** and **Google**. Add the local and deployed website domains to **Authorized domains**.
+2. In **Authentication → Sign-in method**, enable **Email/Password** and **Google**. In **Authentication → Settings → Authorized domains**, add `localhost` and your deployed website domain. The launcher opens `http://localhost:5173`; avoid `127.0.0.1` for Google sign-in.
 3. Create a Cloud Firestore database.
 4. Publish the included `firestore.rules` to that database before using the app.
 5. Run the website again. Users can create an account or sign in with Google, reset a forgotten password, and sign out from the account control in the sidebar.
@@ -27,9 +27,9 @@ The app stores transactions at `users/{uid}/transactions/{transactionId}`, budge
 
 - Email/password registration and sign-in, Google sign-in, password reset, persistent sessions, and logout.
 - User-private Firestore data with live sync.
-- Responsive overview, transactions, budgets, analytics, and reports.
+- Responsive overview, transactions, budgets, analytics, reports, and account settings.
 - Income and expense management, search and filters, rule-based insights, and Excel/CSV exports.
-- Light and dark themes.
+- Light and dark themes, three text sizes, compact transaction lists, and a default payment method.
 
 ## Notes
 

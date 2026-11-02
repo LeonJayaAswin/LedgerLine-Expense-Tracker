@@ -10,5 +10,5 @@ if not exist "node_modules\vite\bin\vite.js" (
     exit /b 1
   )
 )
-call npm run dev -- --host 127.0.0.1 --open
+call npm run dev -- --host localhost --open
 pause

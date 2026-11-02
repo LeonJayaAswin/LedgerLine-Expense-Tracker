@@ -6,8 +6,8 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import {
-  collection, deleteDoc, doc, getFirestore, onSnapshot, serverTimestamp,
-  setDoc,
+  collection, deleteDoc, doc, initializeFirestore, onSnapshot,
+  persistentLocalCache, persistentMultipleTabManager, serverTimestamp, setDoc,
 } from 'firebase/firestore';
 
 const config = {
@@ -22,7 +22,9 @@ const config = {
 export const firebaseEnabled = Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
 const firebaseApp = firebaseEnabled ? initializeApp(config) : null;
 export const auth = firebaseApp ? getAuth(firebaseApp) : null;
-const db = firebaseApp ? getFirestore(firebaseApp) : null;
+const db = firebaseApp ? initializeFirestore(firebaseApp, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+}) : null;
 const googleProvider = new GoogleAuthProvider();
 
 const keepSession = () => setPersistence(auth, browserLocalPersistence);
@@ -37,14 +39,15 @@ export const createEmailAccount = async (name, email, password) => {
 export const signInGoogle = async () => { await keepSession(); return signInWithPopup(auth, googleProvider); };
 export const resetPassword = email => sendPasswordResetEmail(auth, email);
 export const logOut = () => signOut(auth);
+export const updateAccountName = name => updateProfile(auth.currentUser, { displayName: name.trim() });
 
 export function watchUserData(uid, onData, onError) {
-  const data = { transactions: [], budgets: {}, theme: 'light' };
+  const data = { transactions: [], budgets: {}, theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', compactMode: false };
   const ready = new Set();
   const emit = key => snapshot => {
     if (key === 'transactions') data.transactions = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
     if (key === 'budgets') data.budgets = snapshot.exists() ? (snapshot.data().values || {}) : {};
-    if (key === 'settings') data.theme = snapshot.exists() ? (snapshot.data().theme || 'light') : 'light';
+    if (key === 'settings' && snapshot.exists()) Object.assign(data, snapshot.data());
     ready.add(key);
     if (ready.size === 3) onData(structuredClone(data));
   };
@@ -70,8 +73,9 @@ export async function syncUserData(uid, next, previous = { transactions: [], bud
   if (JSON.stringify(previous.budgets || {}) !== JSON.stringify(next.budgets || {})) {
     writes.push(setDoc(doc(db, 'users', uid, 'budgets', 'main'), { values: next.budgets || {}, updatedAt: serverTimestamp() }));
   }
-  if ((previous.theme || 'light') !== (next.theme || 'light')) {
-    writes.push(setDoc(doc(db, 'users', uid, 'settings', 'preferences'), { theme: next.theme || 'light', updatedAt: serverTimestamp() }, { merge: true }));
-  }
+  const preferenceDefaults = { theme: 'light', fontSize: 'medium', defaultPayment: 'UPI', compactMode: false, profilePhoto: '' };
+  const preferenceKeys = Object.keys(preferenceDefaults);
+  const prefsChanged = preferenceKeys.some(key => (previous[key] ?? preferenceDefaults[key]) !== (next[key] ?? preferenceDefaults[key]));
+  if (prefsChanged) writes.push(setDoc(doc(db, 'users', uid, 'settings', 'preferences'), Object.fromEntries([...preferenceKeys.map(key => [key, next[key] ?? preferenceDefaults[key]]), ['updatedAt', serverTimestamp()]]), { merge: true }));
   await Promise.all(writes);
 }
